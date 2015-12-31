@@ -9,12 +9,14 @@
 import Foundation
 import UIKit
 
+let screenSize = UIScreen.mainScreen().bounds.size
+
 enum Constants {
     struct UI {
-        static let contentWidth: CGFloat                 = 280.0
-        static let dialogHeightSinglePermission: CGFloat = 260.0
-        static let dialogHeightTwoPermissions: CGFloat   = 360.0
-        static let dialogHeightThreePermissions: CGFloat = 460.0
+        static let contentWidth: CGFloat                 = screenSize.width
+        static let dialogHeightSinglePermission: CGFloat = screenSize.height
+        static let dialogHeightTwoPermissions: CGFloat   = screenSize.height
+        static let dialogHeightThreePermissions: CGFloat = screenSize.height
     }
     
     struct NSUserDefaultsKeys {

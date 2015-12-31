@@ -28,6 +28,8 @@ class ViewController: UIViewController {
         multiPscope.addPermission(LocationWhileInUsePermission(),
             message: "We use this to track\r\nwhere you live")
 
+        singlePscope.imageView.image = UIImage(named: "New-Search-Activate-Notifications")
+
         // Other example permissions
 //        multiPscope.addPermission(MicrophonePermission(),message: "We can hear you")
 //        multiPscope.addPermission(BluetoothPermission(), message: "We use this to drain your battery")

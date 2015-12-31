@@ -46,7 +46,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     /// Font used for all the UILabels
     public var labelFont:UIFont             = .systemFontOfSize(14)
     /// Close button. By default in the top right corner.
-    public var closeButton                  = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 32))
+    public var closeButton                  = UIButton()
     /// Offset used to position the Close button.
     public var closeOffset                  = CGSizeZero
     /// Color used for permission buttons with authorized status
@@ -56,6 +56,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     /// Messages for the body label of the dialog presented when requesting access.
     lazy var permissionMessages: [PermissionType : String] = [PermissionType : String]()
     
+    /// Top Image
+    public var imageView                    = UIImageView()
+
     // MARK: View hierarchy for custom alert
     let baseView    = UIView()
     public let contentView = UIView()
@@ -170,33 +173,44 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         }
         // Content View
         contentView.backgroundColor = UIColor.whiteColor()
-        contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
-        contentView.layer.borderWidth = 0.5
 
         // header label
+        //headerLabel.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
         headerLabel.font = UIFont.systemFontOfSize(22)
         headerLabel.textColor = UIColor.blackColor()
         headerLabel.textAlignment = NSTextAlignment.Center
         headerLabel.text = "Hey, listen!".localized
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(headerLabel)
 
         // body label
+        //bodyLabel.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 70)
         bodyLabel.font = UIFont.boldSystemFontOfSize(16)
         bodyLabel.textColor = UIColor.blackColor()
         bodyLabel.textAlignment = NSTextAlignment.Center
         bodyLabel.text = "We need a couple things\r\nbefore you get started.".localized
         bodyLabel.numberOfLines = 2
+        bodyLabel.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(bodyLabel)
         
         // close button
+        //closeButton.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40)
         closeButton.setTitle("Close".localized, forState: .Normal)
         closeButton.addTarget(self, action: #selector(cancel), forControlEvents: .TouchUpInside)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(closeButton)
         
+
+        // Image view
+        //imageView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 280)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(imageView)
+
         self.statusMotion() //Added to check motion status on load
     }
     
@@ -236,31 +250,74 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         let y = (screenSize.height - dialogHeight) / 2
         contentView.frame = CGRect(x:x, y:y, width:Constants.UI.contentWidth, height:dialogHeight)
 
+        var horizontalConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        contentView.addConstraint(horizontalConstraint)
+
+        var verticalConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 30)
+        contentView.addConstraint(verticalConstraint)
+
+        var widthConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        contentView.addConstraint(widthConstraint)
+
+        var heightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 280)
+        contentView.addConstraint(heightConstraint)
+
         // offset the header from the content center, compensate for the content's offset
-        headerLabel.center = contentView.center
-        headerLabel.frame.offsetInPlace(dx: -contentView.frame.origin.x, dy: -contentView.frame.origin.y)
-        headerLabel.frame.offsetInPlace(dx: 0, dy: -((dialogHeight/2)-50))
+        horizontalConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        contentView.addConstraint(horizontalConstraint)
+
+        verticalConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: imageView, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 30)
+        contentView.addConstraint(verticalConstraint)
+
+        widthConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        contentView.addConstraint(widthConstraint)
+
+        heightConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+        contentView.addConstraint(heightConstraint)
 
         // ... same with the body
-        bodyLabel.center = contentView.center
-        bodyLabel.frame.offsetInPlace(dx: -contentView.frame.origin.x, dy: -contentView.frame.origin.y)
-        bodyLabel.frame.offsetInPlace(dx: 0, dy: -((dialogHeight/2)-100))
+        horizontalConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        contentView.addConstraint(horizontalConstraint)
+
+        verticalConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: headerLabel, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 10)
+        contentView.addConstraint(verticalConstraint)
+
+        widthConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        contentView.addConstraint(widthConstraint)
+
+        //heightConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+        //contentView.addConstraint(heightConstraint)
+
+        horizontalConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        contentView.addConstraint(horizontalConstraint)
+
+        verticalConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: -20)
+        contentView.addConstraint(verticalConstraint)
+
+        //widthConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        //contentView.addConstraint(widthConstraint)
+
+        //heightConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+        //contentView.addConstraint(heightConstraint)
         
-        closeButton.center = contentView.center
-        closeButton.frame.offsetInPlace(dx: -contentView.frame.origin.x, dy: -contentView.frame.origin.y)
-        closeButton.frame.offsetInPlace(dx: 105, dy: -((dialogHeight/2)-20))
-        closeButton.frame.offsetInPlace(dx: self.closeOffset.width, dy: self.closeOffset.height)
         if let _ = closeButton.imageView?.image {
             closeButton.setTitle("", forState: .Normal)
         }
         closeButton.setTitleColor(closeButtonTextColor, forState: .Normal)
 
-        let baseOffset = 95
         var index = 0
         for button in permissionButtons {
-            button.center = contentView.center
-            button.frame.offsetInPlace(dx: -contentView.frame.origin.x, dy: -contentView.frame.origin.y)
-            button.frame.offsetInPlace(dx: 0, dy: -((dialogHeight/2)-160) + CGFloat(index * baseOffset))
+            horizontalConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+            contentView.addConstraint(horizontalConstraint)
+
+            verticalConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: bodyLabel, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 30)
+            contentView.addConstraint(verticalConstraint)
+
+            widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 200)
+            contentView.addConstraint(widthConstraint)
+
+            heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 36)
+            contentView.addConstraint(heightConstraint)
             
             let type = configuredPermissions[index].type
             
@@ -319,7 +376,8 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     - returns: UIButton instance with a custom style.
     */
     func permissionStyledButton(type: PermissionType) -> UIButton {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 220, height: 40))
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(permissionButtonTextColor, forState: .Normal)
         button.titleLabel?.font = buttonFont
 
@@ -370,7 +428,8 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     - returns: UILabel instance with a custom style.
     */
     func permissionStyledLabel(type: PermissionType) -> UILabel {
-        let label  = UILabel(frame: CGRect(x: 0, y: 0, width: 260, height: 50))
+        let label  = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = labelFont
         label.numberOfLines = 2
         label.textAlignment = .Center
@@ -1044,9 +1103,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             permissionButtons.append(button)
             contentView.addSubview(button)
 
-            let label = permissionStyledLabel(permission.type)
-            permissionLabels.append(label)
-            contentView.addSubview(label)
+            //let label = permissionStyledLabel(permission.type)
+            //permissionLabels.append(label)
+            //contentView.addSubview(label)
         }
         
         self.view.setNeedsLayout()
