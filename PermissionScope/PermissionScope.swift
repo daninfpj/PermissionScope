@@ -250,6 +250,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         let y = (screenSize.height - dialogHeight) / 2
         contentView.frame = CGRect(x:x, y:y, width:Constants.UI.contentWidth, height:dialogHeight)
 
+        // image
         var horizontalConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
         contentView.addConstraint(horizontalConstraint)
 
@@ -262,44 +263,36 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         var heightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 280)
         contentView.addConstraint(heightConstraint)
 
-        // offset the header from the content center, compensate for the content's offset
+        // header
         horizontalConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
         contentView.addConstraint(horizontalConstraint)
 
         verticalConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: imageView, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 30)
         contentView.addConstraint(verticalConstraint)
 
-        widthConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        widthConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: -30)
         contentView.addConstraint(widthConstraint)
 
         heightConstraint = NSLayoutConstraint(item: headerLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
         contentView.addConstraint(heightConstraint)
 
-        // ... same with the body
+        // body
         horizontalConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
         contentView.addConstraint(horizontalConstraint)
 
         verticalConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: headerLabel, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 10)
         contentView.addConstraint(verticalConstraint)
 
-        widthConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
+        widthConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: -30)
         contentView.addConstraint(widthConstraint)
 
-        //heightConstraint = NSLayoutConstraint(item: bodyLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
-        //contentView.addConstraint(heightConstraint)
-
+        // close button
         horizontalConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
         contentView.addConstraint(horizontalConstraint)
 
         verticalConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: -20)
         contentView.addConstraint(verticalConstraint)
 
-        //widthConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
-        //contentView.addConstraint(widthConstraint)
-
-        //heightConstraint = NSLayoutConstraint(item: closeButton, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
-        //contentView.addConstraint(heightConstraint)
-        
         if let _ = closeButton.imageView?.image {
             closeButton.setTitle("", forState: .Normal)
         }

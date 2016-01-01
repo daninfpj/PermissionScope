@@ -29,6 +29,7 @@ class ViewController: UIViewController {
             message: "We use this to track\r\nwhere you live")
 
         singlePscope.imageView.image = UIImage(named: "New-Search-Activate-Notifications")
+        singlePscope.bodyLabel.text = "Longer message.";
 
         // Other example permissions
 //        multiPscope.addPermission(MicrophonePermission(),message: "We can hear you")
