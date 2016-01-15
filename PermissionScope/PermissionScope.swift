@@ -208,6 +208,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         // Image view
         //imageView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 280)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
 
         contentView.addSubview(imageView)
 
@@ -260,7 +261,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         var widthConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0)
         contentView.addConstraint(widthConstraint)
 
-        var heightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 280)
+        var heightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.LessThanOrEqual, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 280)
         contentView.addConstraint(heightConstraint)
 
         // header
@@ -377,6 +378,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         button.layer.borderWidth = permissionButtonΒorderWidth
         button.layer.borderColor = permissionButtonBorderColor.CGColor
         button.layer.cornerRadius = permissionButtonCornerRadius
+
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.5
 
         // this is a bit of a mess, eh?
         switch type {

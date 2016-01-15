@@ -31,6 +31,8 @@ class ViewController: UIViewController {
         singlePscope.imageView.image = UIImage(named: "New-Search-Activate-Notifications")
         singlePscope.bodyLabel.text = "Longer message.";
 
+        singlePscope.permissionButtonCornerRadius = 16;
+
         // Other example permissions
 //        multiPscope.addPermission(MicrophonePermission(),message: "We can hear you")
 //        multiPscope.addPermission(BluetoothPermission(), message: "We use this to drain your battery")
