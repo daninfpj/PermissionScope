@@ -329,10 +329,10 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
                         button.setTitle("\(prettyDescription) Disabled".localized.uppercaseString, forState: .Normal)
                     }
                     
-                    let label = self.permissionLabels[index]
-                    label.center = self.contentView.center
-                    label.frame.offsetInPlace(dx: -self.contentView.frame.origin.x, dy: -self.contentView.frame.origin.y)
-                    label.frame.offsetInPlace(dx: 0, dy: -((dialogHeight/2)-205) + CGFloat(index * baseOffset))
+                    //let label = self.permissionLabels[index]
+                    //label.center = self.contentView.center
+                    //label.frame.offsetInPlace(dx: -self.contentView.frame.origin.x, dy: -self.contentView.frame.origin.y)
+                    //label.frame.offsetInPlace(dx: 0, dy: -((dialogHeight/2)-205) + CGFloat(index * baseOffset))
                     
                     index = index + 1
             })
